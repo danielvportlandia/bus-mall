@@ -5,10 +5,9 @@ var productOne = document.getElementById('image1');
 var productTwo = document.getElementById('image2');
 var productThree = document.getElementById('image3');
 var imageList = document.getElementById('imageList');
-Product.list = document.getElementById('productList');
+var imagesTitle = document.getElementById('imagesTitle');
+// Product.table = document.getElementById('productTable');
 var totalClicks = 0;
-
-//Instances array
 Product.allProducts = [];
 var names = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 
@@ -65,41 +64,55 @@ function handleClick(e) {
     return;
   }
   totalClicks += 1;
-  if (totalClicks >= 25) {
-    imageList.removeEventListener('click', handleClick);
-    imageList.style.display = 'none';
-    showList();
-  }
   for (var i = 0; i < Product.allProducts.length; i++) {
     if (e.target.id === Product.allProducts[i].name) {
       Product.allProducts[i].totalVotes += 1;
       console.log(Product.allProducts[i].totalVotes);
     }
   }
+  if (totalClicks >= 25) {
+    imageList.removeEventListener('click', handleClick);
+    imageList.style.display = 'none';
+    imagesTitle.style.display = 'none';
+    makeChart();
+  }
   console.log('total clicks is ' + totalClicks);
   displayImages();
-}
-
-function showList() {
-  for (var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-    var conversion = (Product.allProducts[i].totalVotes / Product.allProducts[i].totalViews * 100).toFixed(1);
-    liEl.textContent = Product.allProducts[i].name + ' has ' + Product.allProducts[i].totalVotes + ' votes in ' + Product.allProducts[i].totalViews + ' views  for a click-through conversion rate of ' + conversion + '%';
-
-    if (conversion > 49) {
-      liEl.style.color = 'white';
-      liEl.style.backgroundColor = 'green';
-    }
-
-    if (conversion < 30) {
-      liEl.style.color = 'white';
-      liEl.style.backgroundColor = 'red';
-    }
-
-    Product.list.appendChild(liEl);
-  }
 }
 
 //initial display of images.
 displayImages();
 imageList.addEventListener('click', handleClick);
+
+
+function makeChart () {
+  var votes = [];
+  for (var i = 0; i < Product.allProducts.length; i++) {
+    votes[i] = Product.allProducts[i].totalVotes;
+  }
+  var ctx = document.getElementById('productChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: names,
+      datasets: [{
+        label: '# of Votes',
+        data: votes,
+        backgroundColor:
+          'rgba(68, 131, 206, 0.5)',
+        borderColor:
+          'rgba(251, 205, 0, 1)',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
