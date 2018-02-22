@@ -8,6 +8,8 @@ var imageList = document.getElementById('imageList');
 var imagesTitle = document.getElementById('imagesTitle');
 var resultsTitle = document.getElementById('resultsTitle');
 resultsTitle.style.display = 'none';
+var productChart = document.getElementById('productChart');
+productChart.style.display = 'none';
 var totalClicks = 0;
 Product.all = [];
 var names = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
@@ -95,6 +97,7 @@ function handleClick(e) {
     imageList.style.display = 'none';
     imagesTitle.style.display = 'none';
     resultsTitle.style.display = 'block';
+    productChart.style.display = 'block';
     makeChart();
   }
   console.log('total clicks is ' + totalClicks);
