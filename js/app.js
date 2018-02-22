@@ -118,7 +118,7 @@ function makeChart () {
         label: '# of Votes',
         data: votes,
         backgroundColor:
-        'rgba(68, 131, 206, 0.5)',
+        'rgba(68, 131, 206, 0.8)',
         borderColor:
         'rgba(251, 205, 0, 1)',
         borderWidth: 3
